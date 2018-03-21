@@ -116,7 +116,7 @@ sensor_msgs::LaserScanPtr DepthImageToLaserScan::convert_msg(const sensor_msgs::
   scan_msg->range_max = range_max_;
   
   // Check scan_height vs image_height
-  if(scan_height_/2 > cam_model_.cy() || scan_height_/2 > depth_msg->height - cam_model_.cy()){
+  if(scan_height_/2 > (cam_model_.cy()*2*scan_offset_) || scan_height_/2 > depth_msg->height - (cam_model_.cy()*2*scan_offset_)){
     std::stringstream ss;
     ss << "scan_height ( " << scan_height_ << " pixels) is too large for the image height.";
     throw std::runtime_error(ss.str());

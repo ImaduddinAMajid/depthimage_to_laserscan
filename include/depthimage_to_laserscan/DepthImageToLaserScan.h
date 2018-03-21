@@ -103,11 +103,12 @@ namespace depthimage_to_laserscan
     void set_scan_height(const int scan_height);
 
     /**
-     * Sets the row to use as a center in the output LaserScan.
+     * Sets the center position of the output LaserScan.
      * 
-     * SKIP IT FIRST, WILL WRITE IT LATER
+     * scan_offset is the number between 0 and 1 that will be used to set center position in the output. 0 value correspond
+     * to the bottom of the image while value 1 correspond to the height of the image. 
      * 
-     * @param scan_offset I WILL WRITE IT LATER
+     * @param scan_offset Center position of the LaserScan.
      * 
      */
     void set_scan_offset(const float scan_offset);    
@@ -178,7 +179,7 @@ namespace depthimage_to_laserscan
     */
     template<typename T>
     void convert(const sensor_msgs::ImageConstPtr& depth_msg, const image_geometry::PinholeCameraModel& cam_model, 
-		 const sensor_msgs::LaserScanPtr& scan_msg, const int& scan_height, const double& scan_offset) const{
+		 const sensor_msgs::LaserScanPtr& scan_msg, const int& scan_height, const float& scan_offset) const{
       // Use correct principal point from calibration
       float center_x = cam_model.cx();
       float center_y = cam_model.cy();
@@ -192,7 +193,6 @@ namespace depthimage_to_laserscan
       int row_step = depth_msg->step / sizeof(T);
 
       int offset = (int)((cam_model.cy()*2*scan_offset)-scan_height/2);
-      fprintf(stderr, "offset, cam_model.cy(), scan offset, scan height: %d, %f, %f, %d\n", offset, cam_model.cy(), scan_offset, scan_height);
       depth_row += offset*row_step; // Offset to center of image
 
       for(int v = offset; v < offset+scan_height_; v++, depth_row += row_step){
