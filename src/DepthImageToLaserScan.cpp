@@ -115,10 +115,21 @@ sensor_msgs::LaserScanPtr DepthImageToLaserScan::convert_msg(const sensor_msgs::
   scan_msg->range_min = range_min_;
   scan_msg->range_max = range_max_;
   
+  double center_rpw = cam_model_.cy()*2*scan_offset_;
+  double bottom_row = center_row - scan_height_/2;
+  double top_row = center_row + scan_height_/2;
+
   // Check scan_height vs image_height
-  if(scan_height_/2 > (cam_model_.cy()*2*scan_offset_) || scan_height_/2 > depth_msg->height - (cam_model_.cy()*2*scan_offset_)){
+  if(scan_height_/2 > center_row || scan_height_/2 > depth_msg->height - center_row){
     std::stringstream ss;
     ss << "scan_height ( " << scan_height_ << " pixels) is too large for the image height.";
+    throw std::runtime_error(ss.str());
+  }
+
+  // Check scan_row vs image_height
+  if(bottom_row < 0 || top_row > depth_msg->height){
+    std::stringstream ss;
+    ss << "scan_row is out of the image.";
     throw std::runtime_error(ss.str());
   }
 
