@@ -105,8 +105,8 @@ namespace depthimage_to_laserscan
     /**
      * Sets the center position of the output LaserScan.
      * 
-     * scan_offset is the number between 0 and 1 that will be used to set center position in the output. 0 value correspond
-     * to the bottom of the image while value 1 correspond to the height of the image. 
+     * scan_offset is the number between 0 and 1 that will be used to set center position in the output. 0 value corresponds
+     * to the bottom of the image while value 1 corresponds to the height of the image. 
      * 
      * @param scan_offset Center position of the LaserScan.
      * 
@@ -175,6 +175,7 @@ namespace depthimage_to_laserscan
     * @param cam_model The image_geometry camera model for this image.
     * @param scan_msg The output LaserScan.
     * @param scan_height The number of vertical pixels to feed into each angular_measurement.
+    * @param scan_offset The center of the output LaserScan.
     * 
     */
     template<typename T>
