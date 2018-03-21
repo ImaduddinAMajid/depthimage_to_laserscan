@@ -115,7 +115,7 @@ sensor_msgs::LaserScanPtr DepthImageToLaserScan::convert_msg(const sensor_msgs::
   scan_msg->range_min = range_min_;
   scan_msg->range_max = range_max_;
   
-  double center_rpw = cam_model_.cy()*2*scan_offset_;
+  double center_row = cam_model_.cy()*2*scan_offset_;
   double bottom_row = center_row - scan_height_/2;
   double top_row = center_row + scan_height_/2;
 
